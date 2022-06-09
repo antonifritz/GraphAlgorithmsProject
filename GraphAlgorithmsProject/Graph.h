@@ -2,6 +2,7 @@
 #include<queue>
 #include<list>
 #include"Edge.h"
+#include "Vertex.h"
 
 class Graph
 {
@@ -10,13 +11,15 @@ public:
 	void primAlghorithmMST();
 
 private:
-	int size;
+	int size = 0;
 	int ** matrix = new int* [size];
 	std::queue<Edge> edgeQueue;
+	std::queue<Vertex> vertexQueue;
 	bool * visited = new bool[size];
 	std::vector<Edge> MST;
 
-	void setZerosMatrix(int size);
-	void setVisitedFalse(int size);
+	void setInfinityMatrix();
+	void setVisitedFalse();
+	int findAdjacencyVertex(int vertexIndex);
 };
 

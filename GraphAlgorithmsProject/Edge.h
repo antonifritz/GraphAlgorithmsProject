@@ -1,10 +1,9 @@
 #pragma once
-class Edge
+class edge
 {
-	int firstVertexX;
-	int firstVertexY;
-	int secondVertexX;
-	int secondVertexY;
+public:
+	int vertex;
+	int destinationVertex;
 	int weight;
 };
 
