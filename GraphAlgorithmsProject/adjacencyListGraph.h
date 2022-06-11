@@ -1,16 +1,21 @@
 #pragma once
-#include<list>
-#include "edge.h"
-class adjacencyListGraph
+#include "List.h"
+#include "Edge.h"
+
+class AdjacencyListGraph
 {
 public:
 	int numberOfVertexes;
-	std::list<int>* adjacencyList;
-	std::list<edge>* edgeList;
+	int numberOfEdges;
 
-	adjacencyListGraph(int numberOfVertexes);
+	List* listArray;
+	Edge* edgeArray;
+
+	AdjacencyListGraph(int numberOfVertexes, int numberOfEdges);
 
 	void addEdges();
 	void fillGraph();
+
+	void primAlgorithm();
 };
 

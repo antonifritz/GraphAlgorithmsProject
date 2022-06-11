@@ -1,5 +1,5 @@
 #pragma once
-class incidenceMatrixGraph
+class IncidenceMatrixGraph
 {
 public:
 	int numberOfVertexes;
@@ -7,7 +7,7 @@ public:
 
 	int** incidenceMatrix;
 
-	incidenceMatrixGraph(int numberOfVertexes, int numberOfEdges);
+	IncidenceMatrixGraph(int numberOfVertexes, int numberOfEdges);
 
 };
 

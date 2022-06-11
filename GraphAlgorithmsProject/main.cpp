@@ -2,26 +2,25 @@
 //
 
 #include <iostream>
-#include "adjacencyListGraph.h"
+#include "AdjacencyListGraph.h"
 
 int main()
 {
-    adjacencyListGraph* adjList = new adjacencyListGraph(4);
+    AdjacencyListGraph* adjList = new AdjacencyListGraph(5, 6);
     adjList->addEdges();
     adjList->fillGraph();
 
     for (int i = 0; i < adjList->numberOfVertexes; i++)
     {
-        std::list<int>::iterator it;
-        for (it = adjList->adjacencyList[i].begin(); it != adjList->adjacencyList[i].end(); it++)
-        {
-            std::cout << i <<": "<< *it << std::endl;
+        ListElement* iterator = adjList->listArray[i].head;
+
+        for (int j = 0; j < adjList->listArray[i].listSize; j++)
+        {       
+            std::cout << i << ": " << iterator->edge->vertex << " " << iterator->edge->destinationVertex
+                << " " << iterator->edge->weight << std::endl;
+            iterator = iterator->nextEdge;
         }
     }
-
-
-    int a = 4;
-
 
     return 0;
 }

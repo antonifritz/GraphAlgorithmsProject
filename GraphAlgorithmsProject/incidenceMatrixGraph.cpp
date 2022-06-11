@@ -1,6 +1,6 @@
-#include "incidenceMatrixGraph.h"
+#include "IncidenceMatrixGraph.h"
 
-incidenceMatrixGraph::incidenceMatrixGraph(int numberOfVertexes, int numberOfEdges)
+IncidenceMatrixGraph::IncidenceMatrixGraph(int numberOfVertexes, int numberOfEdges)
 {
 	this->numberOfEdges = numberOfEdges;
 	this->numberOfVertexes = numberOfVertexes;
