@@ -7,6 +7,7 @@ public:
 	int weight;
 
 	Edge() {}
+	Edge(Edge* edge);
 	Edge(int vertex, int destinatonVertex, int weight);
 };
 

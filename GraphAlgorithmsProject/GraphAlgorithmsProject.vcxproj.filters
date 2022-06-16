@@ -21,7 +21,7 @@
     <ClCompile Include="IncidenceMatrixGraph.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="AdjacencyListGraph.cpp">
+    <ClCompile Include="Graph.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="Heap.cpp">
@@ -41,7 +41,7 @@
     <ClInclude Include="IncidenceMatrixGraph.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="AdjacencyListGraph.h">
+    <ClInclude Include="Graph.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="Heap.h">

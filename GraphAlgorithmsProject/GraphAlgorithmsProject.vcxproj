@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AdjacencyListGraph.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Heap.cpp" />
     <ClCompile Include="IncidenceMatrixGraph.cpp" />
@@ -148,7 +148,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AdjacencyListGraph.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Heap.h" />

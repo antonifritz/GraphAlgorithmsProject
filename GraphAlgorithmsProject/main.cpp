@@ -2,12 +2,33 @@
 //
 
 #include <iostream>
-#include "AdjacencyListGraph.h"
+#include "Graph.h"
 
 int main()
 {
-    AdjacencyListGraph* adjList = new AdjacencyListGraph(5, 6);
-    adjList->addEdges();
+    srand(time(NULL));
+
+    int numberOfVertexes;
+
+    std::cout << "Enter number of vertexes: " << std::endl;
+    std::cin >> numberOfVertexes;
+
+    Graph* adjList = new Graph(numberOfVertexes);
+    adjList->generateGraphIndirected(100);
+
+    for (int i = 0; i < adjList->numberOfEdges; i++)
+    {
+        std::cout << adjList->edgeArray[i].vertex << " " 
+            << adjList->edgeArray[i].destinationVertex << " " <<
+            adjList->edgeArray[i].weight << std::endl;
+    }
+
+
+    //adjList->addEdges();
+    /*
+    adjList->generateGraphIndirected(100);
+
+    adjList->addEdgesManually();
     adjList->fillGraph();
 
     for (int i = 0; i < adjList->numberOfVertexes; i++)
@@ -22,6 +43,8 @@ int main()
         }
     }
 
+    adjList->printMST(adjList->primAlgorithm());
+    */
     return 0;
 }
 

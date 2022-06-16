@@ -3,14 +3,21 @@
 class Heap
 {
 public:
-	int size = 0;
-	Edge* array = new Edge[size];
+	Heap();
 
-	void push(Edge e);
+	void push(Edge* e);
 	void pop();
+
 	Edge* front();
+
+	void Heapify(int i);
+	void bubbleSort(Edge* arr, int n);
 	int parent(int index);
 	int left(int index);
 	int right(int index);
+
+	int size = 0;
+	int pos;
+	Edge* array;
 };
 
