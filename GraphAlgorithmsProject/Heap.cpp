@@ -26,8 +26,7 @@ void Heap::push(Edge* edge)
         array = newArray;
         delete[] oldArray;
         size++;
-        //Heapify(0);  
-        bubbleSort(array, size);
+        HeapSort();
     }
 }
 
@@ -52,13 +51,18 @@ void Heap::Heapify(int i)
     }
 }
 
-void Heap::bubbleSort(Edge* arr, int n)
+void Heap::HeapSort()
 {
-    int i, j;
-    for (i = 0; i < n - 1; i++)
-        for (j = 0; j < n - i - 1; j++)
-            if (arr[j].weight > arr[j + 1].weight)
-                std::swap(arr[j], arr[j + 1]);
+    for (int i = size / 2 - 1; i >= 0; i--)
+    {
+        Heapify(i);
+    }
+
+    for (int i = size - 1; i >= 0; i--)
+    {
+        std::swap(array[0], array[i]);
+        Heapify(i);
+    }
 }
 
 void Heap::pop()
@@ -73,14 +77,10 @@ void Heap::pop()
     array = newArray;
     delete[] oldArray;
     size--;
-    //bubbleSort(array, size);
 }
 
 Edge* Heap::front()
 {
-    for (int i = 0; i < size; i++)
-        std::cout << array[i].vertex << " " << array[i].destinationVertex << " " << array[i].weight << std::endl;
-    std::cout << std::endl;
     return &array[0];
 }
 

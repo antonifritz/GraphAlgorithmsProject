@@ -37,11 +37,6 @@ void Graph::fillGraph()
 	}
 }
 
-void Graph::addEdges()
-{
-
-}
-
 void Graph::addEdgesManually()
 {
 	int vertex, destinationVertex, weight;
@@ -69,7 +64,7 @@ void Graph::generateGraphIndirected(int density)
 	int displacement;
 	int randomWeight;
 
-	numberOfEdges = (density / 100) * (maxEdges - minEdges) + minEdges;
+	numberOfEdges = (int)((density / 100.0) * (maxEdges - minEdges) + minEdges);
 	std::cout << "Number of edges: "<<numberOfEdges<<std::endl;
 	int availaibleConnections = numberOfEdges;
 	int counter = 0;
@@ -96,7 +91,6 @@ void Graph::generateGraphIndirected(int density)
 		counter++;
 	}
 
-	
 	int j = 0;
 
 	for (int k = counter; k < numberOfEdges; k++)
@@ -129,10 +123,27 @@ void Graph::generateGraphIndirected(int density)
 	}
 }
 
+void Graph::printAdjacencyList()
+{
+	ListElement* iterator;
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		iterator = listArray[i].head;
+		for (int j = 0; j < listArray[i].listSize; j++)
+		{
+			std::cout << i << ": " << iterator->edge->vertex << " "
+				<< iterator->edge->destinationVertex << " " << iterator->edge->weight << std::endl;
+			iterator = iterator->nextEdge;
+		}
+	}
+}
+
 void Graph::printMST(List* list)
 {
 	ListElement* iterator = list->head;
 
+	std::cout << "\nMST edges:\n";
 	while (iterator->nextEdge != nullptr)
 	{
 		std::cout << iterator->edge->vertex << " " << iterator->edge->destinationVertex << " " << iterator->edge->weight << std::endl;
@@ -161,21 +172,15 @@ List* Graph::primAlgorithm()
 	Heap* edgeQueue = new Heap();
 	for (int i = 1; i < numberOfVertexes; i++)
 	{
-		
 			iterator = listArray[vertex].head;
 
-			while (iterator != nullptr)
+			for (int j = 0; j < listArray[vertex].listSize; j++)
 			{
 				if (visitedVertexes[iterator->edge->destinationVertex] == false)
 				{
 					edgeQueue->push(iterator->edge);
 				}
 				iterator = iterator->nextEdge;
-			}
-			std::cout << vertex << std::endl;
-			for (int i = 0; i < edgeQueue->size; i++)
-			{
-				std::cout <<"v: "<< edgeQueue->array[i].vertex << std::endl;
 			}
 
 			do

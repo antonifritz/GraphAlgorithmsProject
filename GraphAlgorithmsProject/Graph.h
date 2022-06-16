@@ -13,11 +13,12 @@ public:
 
 	Graph(int numberOfVertexes);
 
-	void addEdges();
 	void addEdgesManually();
 	void fillGraph();
 	
 	void generateGraphIndirected(int density);
+
+	void printAdjacencyList();
 
 	List* primAlgorithm();
 	void printMST(List* list);

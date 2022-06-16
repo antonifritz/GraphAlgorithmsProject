@@ -6,12 +6,12 @@ void List::insertListBeginning(ListElement* newElement)
 	if (listSize == 0)
 	{
 		head = newElement;
-		listSize++;
+		//listSize++;
 	}
 	else 
 	{
 		newElement->nextEdge = head;
 		head = newElement;
-		listSize++;
+		//listSize++;
 	}
 }

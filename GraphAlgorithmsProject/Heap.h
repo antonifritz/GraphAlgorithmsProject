@@ -11,7 +11,8 @@ public:
 	Edge* front();
 
 	void Heapify(int i);
-	void bubbleSort(Edge* arr, int n);
+	void HeapSort();
+
 	int parent(int index);
 	int left(int index);
 	int right(int index);
