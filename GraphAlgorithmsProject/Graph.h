@@ -9,18 +9,30 @@ public:
 	int numberOfEdges = 0;
 
 	List* listArray;
+	Edge* MST;
 	Edge* edgeArray;
 
+	int** incidenceMatrix;
+	int** adjacencyMatrix;
+
 	Graph(int numberOfVertexes);
+	Graph() {};
+	Graph(int numberOfEdges, int numberOfVertexes);
+	~Graph();
 
 	void addEdgesManually();
-	void fillGraph();
+	void fillAdjacencyList();
+	void fillIncidenceMatrixIndirected();
 	
 	void generateGraphIndirected(int density);
 
+	void printIncidenceMatrix();
+	void printAdjacencyMatrix();
 	void printAdjacencyList();
 
-	List* primAlgorithm();
-	void printMST(List* list);
+	void primAlgorithmAdjacencyList();
+	void primAlgorithmIncidenceMatrix();
+	void primAlgorithmAdjacencyMatrix();
+	void printMST();
 };
 

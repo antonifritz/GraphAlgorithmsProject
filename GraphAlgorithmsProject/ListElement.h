@@ -8,5 +8,6 @@ public:
 
 	Edge* edge;
 	ListElement* nextEdge;
+	ListElement* prevEdge = nullptr;
 };
 

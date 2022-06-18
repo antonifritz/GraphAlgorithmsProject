@@ -120,6 +120,12 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <HeapReserveSize>2</HeapReserveSize>
+      <StackReserveSize>2</StackReserveSize>
+      <HeapCommitSize>
+      </HeapCommitSize>
+      <StackCommitSize>
+      </StackCommitSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,8 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Edge.cpp" />
-    <ClCompile Include="Heap.cpp" />
-    <ClCompile Include="IncidenceMatrixGraph.cpp" />
+    <ClCompile Include="PriorityQueue.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="ListElement.cpp" />
     <ClCompile Include="main.cpp" />
@@ -151,8 +156,7 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="List.h" />
-    <ClInclude Include="Heap.h" />
-    <ClInclude Include="IncidenceMatrixGraph.h" />
+    <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="ListElement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

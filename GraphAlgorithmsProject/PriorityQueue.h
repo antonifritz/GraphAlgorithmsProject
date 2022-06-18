@@ -1,17 +1,17 @@
 #pragma once
 #include "Edge.h"
-class Heap
+class PriorityQueue
 {
 public:
-	Heap();
+	PriorityQueue();
 
 	void push(Edge* e);
 	void pop();
 
 	Edge* front();
 
-	void Heapify(int i);
-	void HeapSort();
+	void QuickSort(int start, int end);
+	int partition(int start, int end);
 
 	int parent(int index);
 	int left(int index);

@@ -1,39 +1,110 @@
 #include "Graph.h"
-#include "Heap.h"
+#include "PriorityQueue.h"
 #include "List.h"
 #include "ListElement.h"
 #include <iostream>
+#include <stdio.h>
 
 Graph::Graph(int numberOfVertexes)
 {
 	this->numberOfVertexes = numberOfVertexes;
 	listArray = new List[numberOfVertexes];
+	MST = new Edge[numberOfVertexes - 1];
+
+	adjacencyMatrix = new int* [numberOfVertexes];
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		adjacencyMatrix[i] = new int[numberOfVertexes];
+	}
 }
 
-void Graph::fillGraph()
+Graph::Graph(int numberOfEdges, int numberOfVertexes)
+{
+	this->numberOfEdges = numberOfEdges;
+	this->numberOfVertexes = numberOfVertexes;
+	edgeArray = new Edge[numberOfEdges];
+	listArray = new List[numberOfVertexes];
+	MST = new Edge[numberOfVertexes - 1];
+
+	adjacencyMatrix = new int* [numberOfVertexes];
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		adjacencyMatrix[i] = new int[numberOfVertexes];
+	}
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		for (int j = 0; j < numberOfVertexes; j++)
+		{
+			adjacencyMatrix[i][j] = 0;
+		}
+	}
+}
+
+Graph::~Graph()
+{
+	delete[] MST;
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		ListElement* iterator = listArray[i].head;
+		for (int j = 0; j < listArray[i].listSize - 2; j++)
+		{
+			iterator = iterator->nextEdge;
+		}
+		for (int j = 0; j < listArray[i].listSize - 3; j++)
+		{
+			delete iterator->nextEdge;
+			iterator = iterator->prevEdge;
+		}
+		delete iterator->prevEdge;
+		delete iterator;
+	}
+	delete[] listArray;
+	delete[] edgeArray;
+
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		delete[] adjacencyMatrix[i];
+	}
+	delete[] adjacencyMatrix;
+}
+
+void Graph::fillAdjacencyList()
 {
 	for (int i = 0; i < numberOfEdges; i++)
 	{
-		listArray[edgeArray[i].vertex].listSize++;
-		listArray[edgeArray[i].destinationVertex].listSize++;
+		listArray[edgeArray[i].vertex].insertListBeginning(new ListElement(&edgeArray[i]));
+		listArray[edgeArray[i].destinationVertex].
+			insertListBeginning(new ListElement
+			(new Edge(edgeArray[i].destinationVertex, edgeArray[i].vertex, edgeArray[i].weight)));
+	}
 
-		if (listArray[edgeArray[i].vertex].listSize == 0)
-		{
-			listArray[edgeArray[i].vertex].head = new ListElement(&edgeArray[i]);
-		}
-		else {
-			listArray[edgeArray[i].vertex].insertListBeginning(new ListElement(&edgeArray[i]));
-		}
+}
 
-		if (listArray[edgeArray[i].destinationVertex].listSize == 0)
+void Graph::fillIncidenceMatrixIndirected()
+{
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		for (int j = 0; j < numberOfEdges; j++)
 		{
-			listArray[edgeArray[i].destinationVertex].head = 
-				new ListElement(new Edge(edgeArray[i].destinationVertex, edgeArray[i].vertex, edgeArray[i].weight));
+			incidenceMatrix[i][j] = 0;
 		}
-		else {
-			listArray[edgeArray[i].destinationVertex].
-				insertListBeginning(new ListElement(new Edge(edgeArray[i].destinationVertex, edgeArray[i].vertex, edgeArray[i].weight)));
-		}
+	}
+
+	printIncidenceMatrix();
+
+	for (int i = 0; i < numberOfEdges; i++)
+	{
+		printf("%d, %d, %d\n", edgeArray[i].vertex, edgeArray[i].destinationVertex, edgeArray[i].weight);
+	}
+
+	for (int i = 0; i < numberOfEdges; i++)
+	{
+		incidenceMatrix[edgeArray[i].vertex][i] = edgeArray[i].weight;
+		incidenceMatrix[edgeArray[i].destinationVertex][i] = edgeArray[i].weight;
+		printIncidenceMatrix();
 	}
 }
 
@@ -121,11 +192,76 @@ void Graph::generateGraphIndirected(int density)
 			}
 		}
 	}
+	delete[] doesEgdeExists;
+}
+
+void Graph::printIncidenceMatrix()
+{
+	printf("\nIncidence matrix:\n\n    ");
+	for (int i = 0; i < numberOfEdges; i++)
+	{
+		printf("%3d", i);
+	}
+
+	printf("\n");
+
+	printf("----");
+
+	for (int i = 0; i < numberOfEdges; i++)
+	{
+		printf("---");
+	}
+	
+	printf("\n");
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		printf("%3d|", i);
+		for (int j = 0; j < numberOfEdges; j++)
+		{
+			printf("%3d", incidenceMatrix[i][j]);
+		}
+
+		printf("\n");
+	}
+}
+
+void Graph::printAdjacencyMatrix()
+{
+	printf("\nMacierz sasiedztwa:\n\n    ");
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		printf("%3d", i);
+	}
+
+	printf("\n");
+
+	printf("----");
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		printf("---");
+	}
+
+	printf("\n");
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		printf("%3d|", i);
+		for (int j = 0; j < numberOfVertexes; j++)
+		{
+			printf("%3d", adjacencyMatrix[i][j]);
+		}
+
+		printf("\n");
+	}
 }
 
 void Graph::printAdjacencyList()
 {
 	ListElement* iterator;
+
+	printf("\nAdjacency list:\n\n");
 
 	for (int i = 0; i < numberOfVertexes; i++)
 	{
@@ -139,37 +275,32 @@ void Graph::printAdjacencyList()
 	}
 }
 
-void Graph::printMST(List* list)
+void Graph::printMST()
 {
-	ListElement* iterator = list->head;
-
-	std::cout << "\nMST edges:\n";
-	while (iterator->nextEdge != nullptr)
+	printf("MST:\n");
+	for (int i = 0; i < numberOfVertexes - 1; i++)
 	{
-		std::cout << iterator->edge->vertex << " " << iterator->edge->destinationVertex << " " << iterator->edge->weight << std::endl;
-		iterator = iterator->nextEdge;
+		printf("%d, %d, %d\n", MST[i].vertex, MST[i].destinationVertex, MST[i].weight);
 	}
-	std::cout << iterator->edge->vertex << " " << iterator->edge->destinationVertex << " " << iterator->edge->weight << std::endl;
 }
 
-
-List* Graph::primAlgorithm()
+void Graph::primAlgorithmAdjacencyList()
 {
 	bool* visitedVertexes = new bool[numberOfVertexes];
-
-	List* MST = new List;
 
 	for (int i = 0; i < numberOfVertexes; i++)
 	{
 		visitedVertexes[i] = false;
 	}
 
+	int counter = 0;
+
 	int vertex = 0;
 
 	visitedVertexes[vertex] = true;
 	Edge* e;
 	ListElement* iterator;
-	Heap* edgeQueue = new Heap();
+	PriorityQueue* edgeQueue = new PriorityQueue();
 	for (int i = 1; i < numberOfVertexes; i++)
 	{
 			iterator = listArray[vertex].head;
@@ -189,19 +320,63 @@ List* Graph::primAlgorithm()
 				edgeQueue->pop();
 			} while (visitedVertexes[e->destinationVertex] == true);
 
-			if (MST->listSize == 0)
-			{
-				MST->head = new ListElement(e);
-				MST->listSize++;
-			}
-			else
-			{
-				MST->insertListBeginning(new ListElement(e));
-				MST->listSize++;
-			}
+			MST[counter] = e;
+
+			counter++;
 
 			visitedVertexes[e->destinationVertex] = true;
 			vertex = e->destinationVertex;
 	}
-	return MST;
+}
+
+void Graph::primAlgorithmIncidenceMatrix()
+{
+	bool* visitedVertexes = new bool[numberOfVertexes];
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		visitedVertexes[i] = false;
+	}
+
+	int vertex = 0;
+	int counter = 0;
+	visitedVertexes[vertex] = true;
+	Edge* e;
+	ListElement* iterator;
+	PriorityQueue* edgeQueue = new PriorityQueue();
+
+	for (int i = 1; i < numberOfVertexes; i++)
+	{
+		for (int j = 0; j < numberOfEdges; j++)
+		{
+			if (incidenceMatrix[vertex][j] != 0)
+			{
+				for (int k = 0; k < numberOfVertexes; k++)
+				{
+					if (incidenceMatrix[k][j] != 0 && k != vertex && visitedVertexes[k] == false)
+					{
+						edgeQueue->push(new Edge(vertex, k, incidenceMatrix[k][j]));
+					}
+				}
+			}
+		}
+
+		do
+		{
+			e = new Edge(edgeQueue->front());
+			edgeQueue->pop();
+		} while (visitedVertexes[e->destinationVertex] == true);
+
+		MST[counter] = e;
+		counter++;
+
+		visitedVertexes[e->destinationVertex] = true;
+		vertex = e->destinationVertex;
+	}
+
+}
+
+void Graph::primAlgorithmAdjacencyMatrix()
+{
+
 }
