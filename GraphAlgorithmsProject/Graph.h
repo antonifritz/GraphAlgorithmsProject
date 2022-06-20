@@ -12,6 +12,9 @@ public:
 	Edge* MST;
 	Edge* edgeArray;
 
+	int* predessor = nullptr;
+	int* distance = nullptr;
+
 	int** incidenceMatrix;
 	int** adjacencyMatrix;
 
@@ -21,10 +24,14 @@ public:
 	~Graph();
 
 	void addEdgesManually();
-	void fillAdjacencyList();
+	void fillAdjacencyListIndirected();
+	void fillAdjacencyMatrixIndirected();
 	void fillIncidenceMatrixIndirected();
+	void fillAdjacencyMatrixDirected();
+	void fillAdjacencyListDirected();
 	
 	void generateGraphIndirected(int density);
+	void generateGraphDirected(int density);
 
 	void printIncidenceMatrix();
 	void printAdjacencyMatrix();
@@ -33,6 +40,11 @@ public:
 	void primAlgorithmAdjacencyList();
 	void primAlgorithmIncidenceMatrix();
 	void primAlgorithmAdjacencyMatrix();
+	void dijkstraAlgorithmAdjacencyMatrix();
+	void dijkstraAlgorithmAdjacencyList();
 	void printMST();
+	void printShortestPaths();
+	int minDistance(int distance[], bool isSet[]);
+	void printPath(int j);
 };
 
