@@ -42,6 +42,8 @@ public:
 	void primAlgorithmAdjacencyMatrix();
 	void dijkstraAlgorithmAdjacencyMatrix();
 	void dijkstraAlgorithmAdjacencyList();
+	void kruskalAlgorithmAdjacencyMatrix();
+	void kruskalAlgorithmAdjacencyList();
 	void printMST();
 	void printShortestPaths();
 	int minDistance(int distance[], bool isSet[]);

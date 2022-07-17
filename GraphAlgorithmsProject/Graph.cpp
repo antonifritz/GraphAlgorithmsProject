@@ -2,6 +2,7 @@
 #include "PriorityQueue.h"
 #include "List.h"
 #include "ListElement.h"
+#include "KruskalSet.h"
 #include <iostream>
 #include <stdio.h>
 
@@ -47,6 +48,7 @@ Graph::Graph(int numberOfEdges, int numberOfVertexes)
 			adjacencyMatrix[i][j] = 0;
 		}
 	}
+
 }
 
 Graph::~Graph()
@@ -399,8 +401,15 @@ void Graph::printShortestPaths()
 	int src = 0;
 	printf("Najkrotsza sciezka:");
 	for (int i = 1; i < numberOfVertexes; i++) {
-		printf("\n%2d -> %2d    %2d    %2d ", src, i, distance[i], src);
-		printPath(i);
+		if (distance[i] == INT_MAX)
+		{
+			printf("\n%2d -> %2d   Sciezka nie istnieje!", src, i);
+		}
+		else
+		{
+			printf("\n%2d -> %2d    %2d    %2d ", src, i, distance[i], src);
+			printPath(i);
+		}
 	}
 	printf("\n\n");
 }
@@ -643,4 +652,79 @@ void Graph::dijkstraAlgorithmAdjacencyList()
 	}
 
 	delete[] isSet;
+}
+
+void Graph::kruskalAlgorithmAdjacencyMatrix()
+{
+	PriorityQueue* Queue = new PriorityQueue();
+	KruskalSet* Set = new KruskalSet(numberOfVertexes);
+	Edge* edge;
+
+	for (int i = 0; i < numberOfVertexes; i++)
+		Set->makeSet(i);
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		for (int j = 0; j < numberOfVertexes; j++)
+		{
+			if (adjacencyMatrix[i][j] != 0)
+			{
+				Queue->push(new Edge(i, j, adjacencyMatrix[i][j]));
+			}
+		}
+	}
+
+	for (int i = 1; i < numberOfVertexes; i++)
+	{
+		do
+		{
+			edge = new Edge(Queue->front());
+			Queue->pop();
+		} while (Set->findSet(edge->vertex) == Set->findSet(edge->destinationVertex));
+		MST[i - 1] = edge;
+		Set->mergeSets(edge);
+		delete edge;
+	}
+
+	delete[] Set->sets;
+	delete Set;
+	delete[] Queue->array;
+	delete Queue;
+}
+
+void Graph::kruskalAlgorithmAdjacencyList()
+{
+	PriorityQueue* Queue = new PriorityQueue();
+	KruskalSet* Set = new KruskalSet(numberOfVertexes);
+	Edge* edge;
+	ListElement* iterator;
+
+	for (int i = 0; i < numberOfVertexes; i++)
+		Set->makeSet(i);      
+
+	for (int i = 0; i < numberOfVertexes; i++)
+	{
+		iterator = listArray[i].head;
+		for (int j = 0; j < listArray[i].listSize; j++, iterator = iterator->nextEdge)
+		{
+			Queue->push(iterator->edge);
+		}
+	}
+
+	for (int i = 1; i < numberOfVertexes; i++) 
+	{
+		do
+		{
+			edge = new Edge(Queue->front());      
+			Queue->pop(); 
+		} while (Set->findSet(edge->vertex) == Set->findSet(edge->destinationVertex));
+		MST[i - 1] = edge;  
+		Set->mergeSets(edge);  
+		delete edge;
+	}
+
+	delete[] Set->sets;
+	delete Set;
+	delete[] Queue->array;
+	delete Queue;
 }
